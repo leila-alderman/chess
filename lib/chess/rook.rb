@@ -12,7 +12,7 @@ class Rook
     move_list = list_left_moves(current_position)
     move_list += list_right_moves(current_position) 
     move_list += list_up_moves(current_position)
-    
+    move_list += list_down_moves(current_position)    
   end
 
   private
@@ -82,6 +82,28 @@ class Rook
       possible_moves.push(up)
       current = current.up
       up = current.up
+    end
+    return possible_moves
+  end
+
+  def list_down_moves(current_position)
+    possible_moves = []
+    current = current_position
+    down = current.down
+    until down.nil?
+      if current.piece != nil
+        if current.piece.color != color
+          break
+        end
+      end
+      if down.piece != nil
+        if down.piece.color == color
+          break
+        end
+      end
+      possible_moves.push(down)
+      current = current.down
+      down = current.down
     end
     return possible_moves
   end
