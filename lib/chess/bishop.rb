@@ -1,4 +1,4 @@
-# The Bishop class creates a rook piece that can generate a list of legal moves.
+# The Bishop class creates a bishop piece that can generate a list of legal moves.
 
 class Bishop
   attr_reader :color
