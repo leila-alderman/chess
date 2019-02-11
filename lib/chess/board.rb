@@ -40,46 +40,14 @@ class Board
     for i in 0..(rows-1)
       for j in 0..(columns-1)
         element = grid[i][j]
-        if j-1 >= 0 && j-1 <= columns-1
-          element.left =  grid[i][j-1]
-        else
-          element.left = nil
-        end
-        if j+1 >= 0 && j+1 <= columns-1
-          element.right = grid[i][j+1]
-        else
-          element.right = nil
-        end
-        if i-1 >= 0 && i-1 <= rows-1
-          element.up = grid[i-1][j]
-        else
-          element.up = nil
-        end
-        if i+1 >= 0 && i+1 <= rows-1
-          element.down = grid[i+1][j]
-        else
-          element.down = nil
-        end
-        if (i-1 >= 0 && i-1 <= rows-1) && (j-1 >= 0 && j-1 <= columns-1)
-          element.up_left = grid[i-1][j-1]
-        else
-          element.up_left = nil
-        end
-        if (i+1 >= 0 && i+1 <= rows-1) && (j-1 >= 0 && j-1 <= columns-1)
-          element.dwn_left = grid[i+1][j-1]
-        else
-          element.dwn_left = nil
-        end
-        if (i-1 >= 0 && i-1 <= rows-1) && (j+1 >= 0 && j+1 <= columns-1)
-          element.up_right = grid[i-1][j+1]
-        else
-          element.up_right = nil
-        end
-        if (i+1 >= 0 && i+1 <= rows-1) && (j+1 >= 0 && j+1 <= columns-1)
-          element.dwn_right = grid[i+1][j+1]
-        else
-          element.dwn_right = nil
-        end
+        (j-1).between?(0,columns-1) ? element.left =  grid[i][j-1] : element.left = nil
+        (j+1).between?(0,columns-1) ? element.right = grid[i][j+1] : element.right = nil
+        (i-1).between?(0,rows-1) ? element.up = grid[i-1][j] : element.up = nil
+        (i+1).between?(0,rows-1) ? element.down = grid[i+1][j] : element.down = nil
+        (i-1).between?(0,rows-1) && (j-1).between?(0,columns-1) ? element.up_left = grid[i-1][j-1] : element.up_left = nil
+        (i+1).between?(0,rows-1) && (j-1).between?(0,columns-1) ? element.dwn_left = grid[i+1][j-1] : element.dwn_left = nil
+        (i-1).between?(0,rows-1) && (j+1).between?(0,columns-1) ? element.up_right = grid[i-1][j+1] : element.up_right = nil
+        (i+1).between?(0,rows-1) && (j+1).between?(0,columns-1) ? element.dwn_right = grid[i+1][j+1] : element.dwn_right = nil
       end
     end
   end
