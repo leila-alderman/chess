@@ -43,23 +43,26 @@ RSpec.describe Rook do
     it "includes valid moves in all directions" do
       expect(@rook.list_moves(@initial_position)).to eql [
         @board.grid[3][3], @board.grid[3][2], @board.grid[3][1], @board.grid[3][0], # left
-        @board.grid[3][5], @board.grid[3][6], @board.grid[3][7]  # right
+        @board.grid[3][5], @board.grid[3][6], @board.grid[3][7],  # right
+        @board.grid[2][4], @board.grid[1][4], @board.grid[0][4]   # up
       ]
     end
 
     it "stops before squares occupied by a piece of the same color: left" do
       @board.grid[3][1].piece = Rook.new("black")
       expect(@rook.list_moves(@initial_position)).to eql [
-        @board.grid[3][3], @board.grid[3][2],   # left
-        @board.grid[3][5], @board.grid[3][6], @board.grid[3][7]  # right
+        @board.grid[3][3], @board.grid[3][2],                       # left
+        @board.grid[3][5], @board.grid[3][6], @board.grid[3][7],    # right
+        @board.grid[2][4], @board.grid[1][4], @board.grid[0][4]     # up
       ]
     end
 
     it "stops in squares occupied by a piece of a different color: left" do
       @board.grid[3][1].piece = Rook.new("white")
       expect(@rook.list_moves(@initial_position)).to eql [
-        @board.grid[3][3], @board.grid[3][2], @board.grid[3][1],  # left
-        @board.grid[3][5], @board.grid[3][6], @board.grid[3][7]   # right
+        @board.grid[3][3], @board.grid[3][2], @board.grid[3][1],    # left
+        @board.grid[3][5], @board.grid[3][6], @board.grid[3][7],    # right
+        @board.grid[2][4], @board.grid[1][4], @board.grid[0][4]     # up
       ]
     end
 
@@ -67,7 +70,8 @@ RSpec.describe Rook do
       @board.grid[3][6].piece = Rook.new("black")
       expect(@rook.list_moves(@initial_position)).to eql [
         @board.grid[3][3], @board.grid[3][2], @board.grid[3][1], @board.grid[3][0], # left
-        @board.grid[3][5]  # right
+        @board.grid[3][5],  # right
+        @board.grid[2][4], @board.grid[1][4], @board.grid[0][4]   # up
       ]
     end
 
@@ -75,7 +79,26 @@ RSpec.describe Rook do
       @board.grid[3][6].piece = Rook.new("white")
       expect(@rook.list_moves(@initial_position)).to eql [
         @board.grid[3][3], @board.grid[3][2], @board.grid[3][1], @board.grid[3][0], # left
-        @board.grid[3][5], @board.grid[3][6]   # right
+        @board.grid[3][5], @board.grid[3][6],   # right
+        @board.grid[2][4], @board.grid[1][4], @board.grid[0][4]   # up
+      ]
+    end
+
+    it "stops before squares occupied by a piece of the same color: up" do
+      @board.grid[1][4].piece = Rook.new("black")
+      expect(@rook.list_moves(@initial_position)).to eql [
+        @board.grid[3][3], @board.grid[3][2], @board.grid[3][1], @board.grid[3][0], # left
+        @board.grid[3][5], @board.grid[3][6], @board.grid[3][7],  # right
+        @board.grid[2][4]   # up
+      ]
+    end
+
+    it "stops in squares occupied by a piece of a different color: up" do
+      @board.grid[1][4].piece = Rook.new("white")
+      expect(@rook.list_moves(@initial_position)).to eql [
+        @board.grid[3][3], @board.grid[3][2], @board.grid[3][1], @board.grid[3][0], # left
+        @board.grid[3][5], @board.grid[3][6], @board.grid[3][7],  # right
+        @board.grid[2][4], @board.grid[1][4]   # up
       ]
     end
   end
