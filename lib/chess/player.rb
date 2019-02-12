@@ -8,4 +8,8 @@ class Player
     @color = color
   end
 
+  def move(board, start, stop)
+    board.move_piece(color, start, stop)
+  end
+
 end
