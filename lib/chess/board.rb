@@ -20,41 +20,23 @@ class Board
   end
 
   def setup_pieces
-    grid[0][0].piece = Rook.new("black")
-    grid[0][1].piece = Knight.new("black")
-    grid[0][2].piece = Bishop.new("black")
-    grid[0][3].piece = King.new("black")
-    grid[0][4].piece = Queen.new("black")
-    grid[0][5].piece = Bishop.new("black")
-    grid[0][6].piece = Knight.new("black")
-    grid[0][7].piece = Rook.new("black")
+    setup_black_pieces
+    setup_white_pieces   
+  end
 
-    grid[1][0].piece = Pawn.new("black")
-    grid[1][1].piece = Pawn.new("black")
-    grid[1][2].piece = Pawn.new("black")
-    grid[1][3].piece = Pawn.new("black")
-    grid[1][4].piece = Pawn.new("black")
-    grid[1][5].piece = Pawn.new("black")
-    grid[1][6].piece = Pawn.new("black")
-    grid[1][7].piece = Pawn.new("black")
-
-    grid[7][0].piece = Rook.new("white")
-    grid[7][1].piece = Knight.new("white")
-    grid[7][2].piece = Bishop.new("white")
-    grid[7][3].piece = King.new("white")
-    grid[7][4].piece = Queen.new("white")
-    grid[7][5].piece = Bishop.new("white")
-    grid[7][6].piece = Knight.new("white")
-    grid[7][7].piece = Rook.new("white")
-
-    grid[6][0].piece = Pawn.new("white")
-    grid[6][1].piece = Pawn.new("white")
-    grid[6][2].piece = Pawn.new("white")
-    grid[6][3].piece = Pawn.new("white")
-    grid[6][4].piece = Pawn.new("white")
-    grid[6][5].piece = Pawn.new("white")
-    grid[6][6].piece = Pawn.new("white")
-    grid[6][7].piece = Pawn.new("white")
+  def move_piece(color, start, stop)
+    pos_i = grid.flatten.find { |square| square.name == start }
+    piece = pos_i.piece
+    # Reject move if no piece exists at the start position
+    return "Invalid move: There is no piece at the start position." if piece.nil?
+    # Reject move if the piece is a different color than the player
+    return "Invalid move: You can only move pieces of your own color." if piece.color != color
+    pos_f = grid.flatten.find { |square| square.name == stop }
+    move_list = piece.list_moves(pos_i)
+    # Reject move if the stop position is not in the move list
+    return "Invalid move: That piece cannot move to that position." unless move_list.include?(pos_f)
+    pos_f.piece = piece
+    pos_i.piece = nil
   end
 
   private
@@ -95,6 +77,46 @@ class Board
         (i+1).between?(0,rows-1) && (j+1).between?(0,columns-1) ? element.dwn_right = grid[i+1][j+1] : element.dwn_right = nil
       end
     end
+  end
+
+  def setup_black_pieces
+    grid[0][0].piece = Rook.new("black")
+    grid[0][1].piece = Knight.new("black")
+    grid[0][2].piece = Bishop.new("black")
+    grid[0][3].piece = Queen.new("black")
+    grid[0][4].piece = King.new("black")
+    grid[0][5].piece = Bishop.new("black")
+    grid[0][6].piece = Knight.new("black")
+    grid[0][7].piece = Rook.new("black")
+
+    grid[1][0].piece = Pawn.new("black")
+    grid[1][1].piece = Pawn.new("black")
+    grid[1][2].piece = Pawn.new("black")
+    grid[1][3].piece = Pawn.new("black")
+    grid[1][4].piece = Pawn.new("black")
+    grid[1][5].piece = Pawn.new("black")
+    grid[1][6].piece = Pawn.new("black")
+    grid[1][7].piece = Pawn.new("black")
+  end
+
+  def setup_white_pieces
+    grid[7][0].piece = Rook.new("white")
+    grid[7][1].piece = Knight.new("white")
+    grid[7][2].piece = Bishop.new("white")
+    grid[7][3].piece = Queen.new("white")
+    grid[7][4].piece = King.new("white")
+    grid[7][5].piece = Bishop.new("white")
+    grid[7][6].piece = Knight.new("white")
+    grid[7][7].piece = Rook.new("white")
+
+    grid[6][0].piece = Pawn.new("white")
+    grid[6][1].piece = Pawn.new("white")
+    grid[6][2].piece = Pawn.new("white")
+    grid[6][3].piece = Pawn.new("white")
+    grid[6][4].piece = Pawn.new("white")
+    grid[6][5].piece = Pawn.new("white")
+    grid[6][6].piece = Pawn.new("white")
+    grid[6][7].piece = Pawn.new("white")
   end
 
 end
