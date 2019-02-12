@@ -1,6 +1,13 @@
 # The Board class creates an interconnected grid and then keeps track of the board state.
 
-require "./lib/chess/square.rb"
+require "./lib/chess/square"
+require "./lib/chess/king"
+require "./lib/chess/rook"
+require "./lib/chess/bishop"
+require "./lib/chess/queen"
+require "./lib/chess/knight"
+require "./lib/chess/pawn"
+
 
 class Board
   attr_accessor :grid
@@ -10,6 +17,44 @@ class Board
     @rows = 8
     @columns = 8
     @grid = create_board
+  end
+
+  def setup_pieces
+    grid[0][0].piece = Rook.new("black")
+    grid[0][1].piece = Knight.new("black")
+    grid[0][2].piece = Bishop.new("black")
+    grid[0][3].piece = King.new("black")
+    grid[0][4].piece = Queen.new("black")
+    grid[0][5].piece = Bishop.new("black")
+    grid[0][6].piece = Knight.new("black")
+    grid[0][7].piece = Rook.new("black")
+
+    grid[1][0].piece = Pawn.new("black")
+    grid[1][1].piece = Pawn.new("black")
+    grid[1][2].piece = Pawn.new("black")
+    grid[1][3].piece = Pawn.new("black")
+    grid[1][4].piece = Pawn.new("black")
+    grid[1][5].piece = Pawn.new("black")
+    grid[1][6].piece = Pawn.new("black")
+    grid[1][7].piece = Pawn.new("black")
+
+    grid[7][0].piece = Rook.new("white")
+    grid[7][1].piece = Knight.new("white")
+    grid[7][2].piece = Bishop.new("white")
+    grid[7][3].piece = King.new("white")
+    grid[7][4].piece = Queen.new("white")
+    grid[7][5].piece = Bishop.new("white")
+    grid[7][6].piece = Knight.new("white")
+    grid[7][7].piece = Rook.new("white")
+
+    grid[6][0].piece = Pawn.new("white")
+    grid[6][1].piece = Pawn.new("white")
+    grid[6][2].piece = Pawn.new("white")
+    grid[6][3].piece = Pawn.new("white")
+    grid[6][4].piece = Pawn.new("white")
+    grid[6][5].piece = Pawn.new("white")
+    grid[6][6].piece = Pawn.new("white")
+    grid[6][7].piece = Pawn.new("white")
   end
 
   private
@@ -27,8 +72,8 @@ class Board
   end
 
   def create_square(i, j)
-    rank = 8 - i
-    file = (j + 97).chr
+    rank = 9 - i
+    file = (j + 96).chr
     Square.new({
       row: i,
       col: j,

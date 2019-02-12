@@ -32,99 +32,141 @@ RSpec.describe Board do
     end
   end
 
-  context "#left" do
-    it "can access squares to the left" do
-      expect(@board.grid[4][3].left).to equal @board.grid[4][2]
+  context "#create_board" do
+    context "Square#left" do
+      it "can access squares to the left" do
+        expect(@board.grid[4][3].left).to equal @board.grid[4][2]
+      end
+
+      it "can access squares farther to the left" do
+        expect(@board.grid[2][5].left.left).to equal @board.grid[2][3]
+      end
+
+      it "returns nil outside of the board" do
+        expect(@board.grid[3][0].left).to eql nil
+      end
     end
 
-    it "can access squares farther to the left" do
-      expect(@board.grid[2][5].left.left).to equal @board.grid[2][3]
+    context "Square#right" do
+      it "can access squares to the right" do
+        expect(@board.grid[4][4].right).to equal @board.grid[4][5]
+      end
+
+      it "can access squares farther to the right" do
+        expect(@board.grid[3][2].right.right).to equal @board.grid[3][4]
+      end
+
+      it "returns nil outside of the board" do
+        expect(@board.grid[1][7].right).to be_nil
+      end
     end
 
-    it "returns nil outside of the board" do
-      expect(@board.grid[3][0].left).to eql nil
+    context "Square#up" do
+      it "can access squares up" do
+        expect(@board.grid[3][3].up).to equal @board.grid[2][3]
+      end
+
+      it "can access squares farther up" do
+        expect(@board.grid[2][0].up.up).to equal @board.grid[0][0]
+      end
+
+      it "returns nil outside of the board" do
+        expect(@board.grid[0][4].up).to be_nil
+      end
+    end
+
+    context "Square#down" do
+      it "can access squares down" do
+        expect(@board.grid[4][3].left).to equal @board.grid[4][2]
+      end
+
+      it "can access squares farther down" do
+        expect(@board.grid[2][5].left.left).to equal @board.grid[2][3]
+      end
+
+      it "returns nil outside of the board" do
+        expect(@board.grid[7][3].down).to be_nil
+      end
+    end
+
+    context "Square#up_left" do
+      it "can access squares to the upper left" do
+        expect(@board.grid[3][3].up_left).to equal @board.grid[2][2]
+      end
+
+      it "can access squares farther to the upper left" do
+        expect(@board.grid[2][2].up_left.up_left).to equal @board.grid[0][0]
+      end
+    end
+
+    context "Square#dwn_left" do
+      it "can access squares to the lower left" do
+        expect(@board.grid[3][3].dwn_left).to equal @board.grid[4][2]
+      end
+
+      it "can access squares farther to the lower left" do
+        expect(@board.grid[2][5].dwn_left.dwn_left).to equal @board.grid[4][3]
+      end
+    end
+
+    context "Square#up_right" do
+      it "can access squares to the upper right" do
+        expect(@board.grid[4][0].up_right).to equal @board.grid[3][1]
+      end
+
+      it "can access squares farther to the upper right" do
+        expect(@board.grid[5][2].up_right.up_right).to equal @board.grid[3][4]
+      end
+    end
+
+    context "Square#dwn_right" do
+      it "can access squares to the lower right" do
+        expect(@board.grid[3][3].dwn_right).to equal @board.grid[4][4]
+      end
+
+      it "can access squares farther to the lower right" do
+        expect(@board.grid[2][0].dwn_right.dwn_right).to equal @board.grid[4][2]
+      end
+    end
+
+    context "Square#name" do
+      it "gives correct name for a8" do
+        expect(@board.grid[0][0].name).to eql "a8"
+      end
+
+      it "gives correct name for a1" do
+        expect(@board.grid[7][0].name).to eql "a1"
+      end
+
+      it "gives correct name for h1" do
+        expect(@board.grid[7][7].name).to eql "h1"
+      end
+      
+      it "gives correct name for e5" do
+        expect(@board.grid[3][4].name).to eql "e5"
+      end
     end
   end
 
-  context "#right" do
-    it "can access squares to the right" do
-      expect(@board.grid[4][4].right).to equal @board.grid[4][5]
+  context "setup_pieces" do
+    before do
+      @board.setup_pieces
     end
 
-    it "can access squares farther to the right" do
-      expect(@board.grid[3][2].right.right).to equal @board.grid[3][4]
+    it "places the black king" do
+      expect(@board.grid[0][3].piece.is_a? King).to eql true
     end
 
-    it "returns nil outside of the board" do
-      expect(@board.grid[1][7].right).to be_nil
-    end
-  end
-
-  context "#up" do
-    it "can access squares up" do
-      expect(@board.grid[3][3].up).to equal @board.grid[2][3]
+    it "places the white king" do
+      expect(@board.grid[7][3].piece.is_a? King).to eql true
     end
 
-    it "can access squares farther up" do
-      expect(@board.grid[2][0].up.up).to equal @board.grid[0][0]
+    it "place a black pawn" do
+      expect(@board.grid[1][6].piece.is_a? Pawn).to eql true
     end
 
-    it "returns nil outside of the board" do
-      expect(@board.grid[0][4].up).to be_nil
-    end
-  end
-
-  context "#down" do
-    it "can access squares down" do
-      expect(@board.grid[4][3].left).to equal @board.grid[4][2]
-    end
-
-    it "can access squares farther down" do
-      expect(@board.grid[2][5].left.left).to equal @board.grid[2][3]
-    end
-
-    it "returns nil outside of the board" do
-      expect(@board.grid[7][3].down).to be_nil
-    end
-  end
-
-  context "#up_left" do
-    it "can access squares to the upper left" do
-      expect(@board.grid[3][3].up_left).to equal @board.grid[2][2]
-    end
-
-    it "can access squares farther to the upper left" do
-      expect(@board.grid[2][2].up_left.up_left).to equal @board.grid[0][0]
-    end
-  end
-
-  context "#dwn_left" do
-    it "can access squares to the lower left" do
-      expect(@board.grid[3][3].dwn_left).to equal @board.grid[4][2]
-    end
-
-    it "can access squares farther to the lower left" do
-      expect(@board.grid[2][5].dwn_left.dwn_left).to equal @board.grid[4][3]
-    end
-  end
-
-  context "#up_right" do
-    it "can access squares to the upper right" do
-      expect(@board.grid[4][0].up_right).to equal @board.grid[3][1]
-    end
-
-    it "can access squares farther to the upper right" do
-      expect(@board.grid[5][2].up_right.up_right).to equal @board.grid[3][4]
-    end
-  end
-
-  context "#dwn_right" do
-    it "can access squares to the lower right" do
-      expect(@board.grid[3][3].dwn_right).to equal @board.grid[4][4]
-    end
-
-    it "can access squares farther to the lower right" do
-      expect(@board.grid[2][0].dwn_right.dwn_right).to equal @board.grid[4][2]
+    it "place a white pawn" do
+      expect(@board.grid[1][6].piece.is_a? Pawn).to eql true
     end
   end
 
