@@ -43,8 +43,7 @@ RSpec.describe Player do
 
   context "#move" do
     before do
-      @board = Board.new
-      @board.setup_pieces
+      @board = Board.new_full
     end
 
     it "raises an error if not given any input" do

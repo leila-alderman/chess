@@ -152,66 +152,62 @@ RSpec.describe Board do
     end
   end
 
-  context "#setup_pieces" do
-    before do
-      @board.setup_pieces
-    end
+  before do
+    @full_board = Board.new_full
+  end
 
+  context "#setup_pieces" do
     it "places the black king" do
-      expect(@board.grid[0][4].piece.is_a? King).to eql true
+      expect(@full_board.grid[0][4].piece.is_a? King).to eql true
     end
 
     it "places the white king" do
-      expect(@board.grid[7][4].piece.is_a? King).to eql true
+      expect(@full_board.grid[7][4].piece.is_a? King).to eql true
     end
 
     it "place a black pawn" do
-      expect(@board.grid[1][6].piece.is_a? Pawn).to eql true
+      expect(@full_board.grid[1][6].piece.is_a? Pawn).to eql true
     end
 
     it "place a white pawn" do
-      expect(@board.grid[1][6].piece.is_a? Pawn).to eql true
+      expect(@full_board.grid[1][6].piece.is_a? Pawn).to eql true
     end
   end
 
   context "#move_piece" do
-    before do
-      @board.setup_pieces
-    end
-
     it "raises an error if not given any input" do
-      expect{ @board.move_piece }.to raise_error(ArgumentError)
+      expect{ @full_board.move_piece }.to raise_error(ArgumentError)
     end
 
     it "raises an error if given too few arguments" do
-      expect{ @board.move_piece("white", "a3")}.to raise_error(ArgumentError)
+      expect{ @full_board.move_piece("white", "a3")}.to raise_error(ArgumentError)
     end
 
     it "doesn't raise an error if given three arguments" do
-      expect{ @board.move_piece("white", "a3", "c4")}.to_not raise_error
+      expect{ @full_board.move_piece("white", "a3", "c4")}.to_not raise_error
     end
 
     it "rejects move if no piece at start position" do
-      expect(@board.move_piece("white", "c5", "c4")).to eql "Invalid move: There is no piece at the start position."
+      expect(@full_board.move_piece("white", "c5", "c4")).to eql "Invalid move: There is no piece at the start position."
     end
 
     it "rejects move if piece is different color than player" do
-      expect(@board.move_piece("black", "c2", "c4")).to eql "Invalid move: You can only move pieces of your own color."
+      expect(@full_board.move_piece("black", "c2", "c4")).to eql "Invalid move: You can only move pieces of your own color."
     end
 
     it "rejects move if stop position is not in move list" do
-      expect(@board.move_piece("white", "c2", "b3")).to eql "Invalid move: That piece cannot move to that position."
+      expect(@full_board.move_piece("white", "c2", "b3")).to eql "Invalid move: That piece cannot move to that position."
     end
 
     it "can move a pawn" do
-      @board.move_piece("white", "c2", "c4")
-      expect(@board.grid[4][2].piece.is_a? Pawn).to eql true
+      @full_board.move_piece("white", "c2", "c4")
+      expect(@full_board.grid[4][2].piece.is_a? Pawn).to eql true
     end
 
     it "can move a queen" do
-      @board.move_piece("white", "e2", "e4")
-      @board.move_piece("white", "d1", "h5")
-      expect(@board.grid[3][7].piece.color).to eql "white"
+      @full_board.move_piece("white", "e2", "e4")
+      @full_board.move_piece("white", "d1", "h5")
+      expect(@full_board.grid[3][7].piece.color).to eql "white"
     end
 
   end

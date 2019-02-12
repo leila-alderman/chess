@@ -19,6 +19,12 @@ class Board
     @grid = create_board
   end
 
+  def self.new_full
+    new_board = self.new
+    new_board.setup_pieces
+    return new_board
+  end
+
   def setup_pieces
     setup_black_pieces
     setup_white_pieces   
