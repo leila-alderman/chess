@@ -201,13 +201,20 @@ RSpec.describe Board do
 
     it "can move a pawn" do
       @full_board.move_piece("white", "c2", "c4")
-      expect(@full_board.grid[4][2].piece.is_a? Pawn).to eql true
+      expect(@full_board.grid[4][2].piece.class).to eql Pawn
     end
 
     it "can move a queen" do
       @full_board.move_piece("white", "e2", "e4")
       @full_board.move_piece("white", "d1", "h5")
-      expect(@full_board.grid[3][7].piece.color).to eql "white"
+      expect(@full_board.grid[3][7].piece.class).to eql Queen
+    end
+
+    it "can capture a different color piece" do
+      @full_board.move_piece("white", "e2", "e4")
+      @full_board.move_piece("black", "h7", "h5")
+      @full_board.move_piece("white", "d1", "h5")
+      expect(@full_board.grid[3][7].piece.class).to eql Queen
     end
 
   end
