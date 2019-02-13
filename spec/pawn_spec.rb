@@ -11,7 +11,6 @@ RSpec.describe Pawn do
     it "doesn't raise an error when initialized with a color" do
       expect { Pawn.new("white")}.to_not raise_error
     end
-
   end
 
   before do
@@ -27,6 +26,16 @@ RSpec.describe Pawn do
 
     it "cannot be changed" do
       expect{@black_pawn.color = "white" }.to raise_error(NoMethodError)
+    end
+  end
+
+  context "#symbol" do
+    it "returns the white pawn symbol" do
+      expect(@white_pawn.symbol).to eql "♙"
+    end
+    
+    it "returns the black pawn marker" do
+      expect(@black_pawn.symbol).to eql "♟"
     end
   end
 

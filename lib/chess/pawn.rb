@@ -1,10 +1,15 @@
 # The Pawn class creates a pawn piece that can generate a list of legal moves.
 
 class Pawn
-  attr_reader :color
+  attr_reader :color, :symbol
 
   def initialize(color)
     @color = color
+    if @color == "white"
+      @symbol = "\u2659"
+    elsif @color == "black"
+      @symbol = "\u265F"
+    end
   end
 
   def list_moves(current_position)
