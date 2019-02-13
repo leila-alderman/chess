@@ -1,10 +1,15 @@
 # The Rook class creates a rook piece that can generate a list of legal moves.
 
 class Rook
-  attr_reader :color
+  attr_reader :color, :symbol
 
   def initialize(color)
     @color = color
+    if @color == "white"
+      @symbol = "\u2656"
+    elsif @color == "black"
+      @symbol = "\u265C"
+    end
   end
 
   def list_moves(current_position)
