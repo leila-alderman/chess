@@ -1,10 +1,15 @@
 # The King class creates a king piece that can generate a list of legal moves.
 
 class King
-  attr_reader :color
+  attr_reader :color, :symbol
 
   def initialize(color)
     @color = color
+    if @color == "white"
+      @symbol = "\u2654"
+    elsif @color == "black"
+      @symbol = "\u265A"
+    end
   end
 
   def list_moves(current_position)

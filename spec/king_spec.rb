@@ -31,6 +31,18 @@ RSpec.describe King do
     end
   end
 
+  context "#symbol" do
+    it "returns the white king symbol" do
+      @white_king = King.new("white")
+      expect(@white_king.symbol).to eql "♔"
+    end
+    
+    it "returns the black king symbol" do
+      @black_king = King.new("black")
+      expect(@black_king.symbol).to eql "♚"
+    end
+  end
+
   context "#list_moves" do
     it "raises an error when not given a current position" do
       expect{ @king.list_moves }.to raise_error(ArgumentError)
