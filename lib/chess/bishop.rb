@@ -1,10 +1,15 @@
 # The Bishop class creates a bishop piece that can generate a list of legal moves.
 
 class Bishop
-  attr_reader :color
+  attr_reader :color, :symbol
 
   def initialize(color)
     @color = color
+    if @color == "white"
+      @symbol = "\u2657"
+    elsif @color == "black"
+      @symbol = "\u265D"
+    end
   end
 
   def list_moves(current_position)

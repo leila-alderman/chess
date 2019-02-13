@@ -30,6 +30,18 @@ RSpec.describe Bishop do
     end
   end
 
+  context "#symbol" do
+    it "returns the white bishop symbol" do
+      @white_bishop = Bishop.new("white")
+      expect(@white_bishop.symbol).to eql "♗"
+    end
+    
+    it "returns the black bishop symbol" do
+      @black_bishop = Bishop.new("black")
+      expect(@black_bishop.symbol).to eql "♝"
+    end
+  end
+
   context "#list_moves" do
     it "raises an error when not given a current position" do
       expect{ @bishop.list_moves }.to raise_error(ArgumentError)
