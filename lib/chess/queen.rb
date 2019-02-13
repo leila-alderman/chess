@@ -1,10 +1,15 @@
 # The Queen class creates a queen piece that can generate a list of legal moves.
 
 class Queen
-  attr_reader :color
+  attr_reader :color, :symbol
 
   def initialize(color)
     @color = color
+    if @color == "white"
+      @symbol = "\u2655"
+    elsif @color == "black"
+      @symbol = "\u265B"
+    end
   end
 
   def list_moves(current_position)

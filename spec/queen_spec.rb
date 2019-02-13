@@ -30,6 +30,18 @@ RSpec.describe Queen do
     end
   end
 
+  context "#symbol" do
+    it "returns the white queen symbol" do
+      @white_queen = Queen.new("white")
+      expect(@white_queen.symbol).to eql "♕"
+    end
+    
+    it "returns the black queen symbol" do
+      @black_queen = Queen.new("black")
+      expect(@black_queen.symbol).to eql "♛"
+    end
+  end
+
   context "#list_moves" do
     it "raises an error when not given a current position" do
       expect{ @queen.list_moves }.to raise_error(ArgumentError)
