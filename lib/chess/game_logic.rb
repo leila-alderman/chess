@@ -65,13 +65,24 @@ class GameLogic
 
 
   # The checkmate? method is given the color of a player and returns `true` if that player is in checkmate.
+  # A checkmate is defined as a player having no legal moves and being in check.
   def checkmate?(color)
     total_moves = list_legal_moves(color)
     total_move_list = []
     total_moves.each do |piece, values|
       total_move_list += values[:moves]
     end
-    total_move_list == [] ? true : false
+    total_move_list == [] && check?(color) ? true : false
   end
 
+  # The stalemate? method is given the color of a player and returns `true` if that player is in a stalemate.
+  # A stalemate is defined as a player having no legal moves and not being in check.
+  def stalemate?(color)
+    total_moves = list_legal_moves(color)
+    total_move_list = []
+    total_moves.each do |piece, values|
+      total_move_list += values[:moves]
+    end
+    total_move_list == [] && !check?(color) ? true : false  
+  end
 end

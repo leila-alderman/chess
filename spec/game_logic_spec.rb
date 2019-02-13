@@ -156,4 +156,33 @@ RSpec.describe GameLogic do
     end
   end
 
+  context "#stalemate?" do
+    it "returns true for example 1" do
+      board = Board.new
+      board.grid[0][7].piece = King.new("black")
+      board.grid[1][5].piece = King.new("white")
+      board.grid[2][6].piece = Queen.new("white")
+      logic = GameLogic.new(board)
+      expect(logic.stalemate?("black")).to eql true
+    end
+
+    it "returns true for example 2" do
+      board = Board.new
+      board.grid[3][0].piece = King.new("black")
+      board.grid[2][2].piece = Queen.new("white")
+      board.grid[4][2].piece = King.new("white")
+      logic = GameLogic.new(board)
+      expect(logic.stalemate?("black")).to eql true
+    end
+
+    it "returns true for example 3" do
+      board = Board.new
+      board.grid[7][0].piece = King.new("black")
+      board.grid[6][1].piece = Rook.new("white")
+      board.grid[5][2].piece = King.new("white")
+      logic = GameLogic.new(board)
+      expect(logic.stalemate?("black")).to eql true
+    end
+  end
+
 end
