@@ -31,6 +31,18 @@ RSpec.describe Knight do
     end
   end
 
+  context "#symbol" do
+    it "returns the white knight symbol" do
+      @white_knight = Knight.new("white")
+      expect(@white_knight.symbol).to eql "♘"
+    end
+    
+    it "returns the black knight symbol" do
+      @black_knight = Knight.new("black")
+      expect(@black_knight.symbol).to eql "♞"
+    end
+  end
+
   context "#list_moves" do
     it "raises an error when not given a current position" do
       expect{ @knight.list_moves }.to raise_error(ArgumentError)

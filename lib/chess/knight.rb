@@ -1,10 +1,15 @@
 # The Knight class creates a knight piece that can generate a list of legal moves.
 
 class Knight
-  attr_reader :color
+  attr_reader :color, :symbol
 
   def initialize(color)
     @color = color
+    if @color == "white"
+      @symbol = "\u2658"
+    elsif @color == "black"
+      @symbol = "\u265E"
+    end
   end
 
   def list_moves(current_position)
