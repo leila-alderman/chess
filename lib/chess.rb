@@ -25,13 +25,60 @@ class Chess
   def show_board
     puts "\n\n"
     for i in 1..board.columns
-      print "| #{i} " 
+      print " #{(i + 96).chr} "
     end
-    print "| \n"
-    board.grid.each do |row|
-      print row.map { |square| "| #{square.piece.marker} " }.join
-      print "| \n"
+    print "\n"
+    board.grid.each_with_index do |row, j|
+      print 9-j
+      if j % 2 == 1
+        row.each_with_index do |square, x|
+          if x % 2 == 1
+            if square.piece == nil
+              print white("   ")
+            else
+              print white(" #{square.piece.symbol} ")
+            end
+          else
+            if square.piece == nil
+              print gray("   ")
+            else
+              print gray(" #{square.piece.symbol} ")
+            end
+          end
+        end
+      else
+        row.each_with_index do |square, x|
+          if x % 2 == 0
+            if square.piece == nil
+              print white("   ")
+            else
+              print white(" #{square.piece.symbol} ")
+            end
+          else
+            if square.piece == nil
+              print gray("   ")
+            else
+              print gray(" #{square.piece.symbol} ")
+            end
+          end
+        end
+      end
+      print 9-j
+      print "\n"
     end
+    for i in 1..board.columns
+      print " #{(i + 96).chr} "
+    end
+  end
+
+  def colorize(text, color_code)
+    "#{color_code}#{text}\e[0m"
+  end
+  
+  def gray(text); colorize(text, "\e[1;30;47m"); end
+  def white(text); colorize(text, "\e[1;30;107m"); end
+
+  def display_rules
   end
 
 end
