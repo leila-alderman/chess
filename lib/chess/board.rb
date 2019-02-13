@@ -8,17 +8,20 @@ require "./lib/chess/queen"
 require "./lib/chess/knight"
 require "./lib/chess/pawn"
 
-
 class Board
   attr_accessor :grid
   attr_reader :rows, :columns
 
+  # The self.new class method creates a new Board instance
+  # that is empty; it contains no pieces.
   def initialize 
     @rows = 8
     @columns = 8
     @grid = create_board
   end
 
+  # The self.new_full class method creates a new Board instance that
+  # already has all of the pieces in their starting positions.
   def self.new_full
     new_board = self.new
     new_board.setup_pieces
@@ -39,7 +42,7 @@ class Board
     return "Invalid move: You can only move pieces of your own color." if piece.color != color
     pos_f = grid.flatten.find { |square| square.name == stop }
     move_list = piece.list_moves(pos_i)
-    # Reject move if the stop position is not in the move list
+    # Reject move if the stop position is not in the move list.
     return "Invalid move: That piece cannot move to that position." unless move_list.include?(pos_f)
     pos_f.piece = piece
     pos_i.piece = nil
