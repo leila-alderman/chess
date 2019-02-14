@@ -5,7 +5,7 @@ require "./lib/chess/board"
 require "./lib/chess/game_logic"
 
 class Chess
-  attr_reader :board, :logic, :player_1, :player_2
+  attr_reader :board, :logic, :current_player, :other_player
 
   def initialize(name_1, name_2)
     @board = Board.new_full
@@ -13,16 +13,16 @@ class Chess
     @player_1 = Player.new(name_1, "white")
     @player_2 = Player.new(name_2, "black")
     @game_over = false
+    @current_player, @other_player = @player_1, @player_2
   end
 
   def play
     system("clear")
     show_board_white
-    show_board_black
     display_rules
     while @game_over == false
       switch_players
-      play_turn(@current_player)
+      play_turn(current_player)
       check_draw
       check_win
     end
@@ -45,6 +45,45 @@ class Chess
       print_row(reversed_row, j)
     end
     print_black_footer
+  end
+
+  def display_rules
+    puts "\n \n \n"
+    puts "Welcome #{player_1.name} and #{player_2.name}! \n"
+    puts "The goal of chess is to checkmate your opponent by placing their king under immediate attack with no way out. 
+Each turn, you can move one of your pieces by entering the piece's starting position and final position."
+    puts "#{player_1.name}, you're playing white."
+    puts "#{player_2.name}, you're playing black."
+    puts "Let's play!\n \n"
+  end
+
+  def switch_players
+    current_player, other_player = other_player, current_player
+  end
+
+  def play_turn(player)
+    start, stop = get_input(player)
+    player.move(board, start, stop)
+  end
+
+  def get_input(player)
+    puts "It's #{player.name}'s turn."
+    puts "Please enter the position of the piece you want to move (a1-h8). 
+Alternatively, enter s to save the game or r to resign."
+    start = gets.chomp
+    if start == "r"
+      puts "#{current_player.name} has resigned. #{other_player.name} wins!"
+      puts "Thanks for playing!"
+      @game_over = true
+    elsif logic.valid_start?(player.color, start) == false
+      get_input(player)
+    end
+    puts "Please enter the position of where you want to move your piece (a1-h8)."
+    stop = gets.chomp
+    unless logic.valid_move?(player.color, start, stop)
+      get_input(player)
+    end
+    return start, stop
   end
 
   def print_black_header
@@ -136,16 +175,6 @@ class Chess
   
   def white(text)
     colorize(text, "\e[1;30;107m")
-  end
-
-  def display_rules
-    puts "\n \n \n"
-    puts "Welcome #{player_1.name} and #{player_2.name}! \n"
-    puts "The goal of chess is to checkmate your opponent by placing their king under immediate attack with no way out. 
-Each turn, you can move one of your pieces by entering the piece's starting position and final position."
-    puts "#{player_1.name}, you're playing white."
-    puts "#{player_2.name}, you're playing black."
-    puts "Let's play!\n \n"
   end
 
 end
