@@ -36,14 +36,7 @@ class Board
   def move_piece(color, start, stop)
     pos_i = grid.flatten.find { |square| square.name == start }
     piece = pos_i.piece
-    # Reject move if no piece exists at the start position
-    return "Invalid move: There is no piece at the start position." if piece.nil?
-    # Reject move if the piece is a different color than the player
-    return "Invalid move: You can only move pieces of your own color." if piece.color != color
     pos_f = grid.flatten.find { |square| square.name == stop }
-    move_list = piece.list_moves(pos_i)
-    # Reject move if the stop position is not in the move list.
-    return "Invalid move: That piece cannot move to that position." unless move_list.include?(pos_f)
     pos_f.piece = piece
     pos_i.piece = nil
   end
