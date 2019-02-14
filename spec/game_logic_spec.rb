@@ -1,11 +1,69 @@
 require "./lib/chess/game_logic"
 
 RSpec.describe GameLogic do
+  
+  context "#valid_start?" do
+    before do
+      @full_board = Board.new_full
+      @logic = GameLogic.new(@full_board)
+    end
 
+    it "returns false if start position is not on board" do
+      expect(@logic.valid_start?("white", "z10")).to eql false
+    end
+
+    it "returns false if no piece at start position" do
+      expect(@logic.valid_start?("white", "c5")).to eql false
+    end
+
+    it "returns false if piece is different color than player" do
+      expect(@logic.valid_start?("black", "c2")).to eql false
+    end
+
+    it "returns true for a valid white start" do
+      expect(@logic.valid_start?("white", "c2")).to eql true
+    end
+
+    it "returns true for a valid black start" do
+      expect(@logic.valid_start?("black", "c7")).to eql true
+    end
+
+  end
+
+  context "#valid_move?" do
+    before do
+      @full_board = Board.new_full
+      @logic = GameLogic.new(@full_board)
+    end
+    
+    it "returns false if stop position is not on board" do
+      expect(@logic.valid_move?("white", "c2", "z10")).to eql false
+    end
+    
+    it "returns false if stop position is not in move list" do
+      expect(@logic.valid_move?("white", "c2", "b3")).to eql false
+    end
+
+    it "returns true for a valid pawn move" do
+      expect(@logic.valid_move?("white", "c2", "c4")).to eql true
+    end
+
+    it "returns true for a valid queen move" do
+      @full_board.move_piece("white", "e2", "e4")
+      expect(@logic.valid_move?("white", "d1", "h5")).to eql true
+    end
+
+    it "returns true for a capture move" do
+      @full_board.move_piece("white", "e2", "e4")
+      @full_board.move_piece("black", "h7", "h5")
+      expect(@logic.valid_move?("white", "d1", "h5")).to eql true
+    end
+  end  
+  
   context "#check?" do
     it "returns false for opening board" do
-      board = Board.new_full
-      logic = GameLogic.new(board)
+      full_board = Board.new_full
+      logic = GameLogic.new(full_board)
       expect(logic.check?("white")).to eql false
     end
 
