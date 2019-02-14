@@ -16,7 +16,7 @@ class GameLogic
     piece = pos_i.piece
     # Reject move if no piece exists at the start position.
     if piece.nil?
-      puts "Invalid move: There is no piece at the start position." 
+      puts "Invalid move: There is no piece at that position." 
       return false
     end
     # Reject move if the piece is a different color than the player.
@@ -24,12 +24,18 @@ class GameLogic
       puts "Invalid move: You can only move pieces of your own color." 
       return false
     end
+    return true
   end
 
   def valid_move?(color, start, stop)
-    pos_i = grid.flatten.find { |square| square.name == start }
+    pos_i = @board.grid.flatten.find { |square| square.name == start }
     piece = pos_i.piece
-    pos_f = grid.flatten.find { |square| square.name == stop }
+    pos_f = @board.grid.flatten.find { |square| square.name == stop }
+    # Reject move if that position doesn't exist.
+    if pos_f.nil?
+      puts "Invalid move: Please enter a position between a1 and h8."
+      return false
+    end
     total_move_list = list_legal_moves(color)
     piece_move_list = total_move_list[piece][:moves]
     # Reject move if the stop position is not in the move list.
@@ -37,6 +43,7 @@ class GameLogic
       puts "Invalid move: That piece cannot move to that position." 
       return false
     end
+    return true
   end
 
   # The check? method is given the color of a player and returns `true` if that player is in check.
