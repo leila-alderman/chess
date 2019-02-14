@@ -6,6 +6,39 @@ class GameLogic
     @board = board
   end
 
+  def valid_start?(color, start)
+    pos_i = @board.grid.flatten.find { |square| square.name == start }
+    # Reject move if that position doesn't exist.
+    if pos_i.nil?
+      puts "Invalid move: Please enter a position between a1 and h8."
+      return false
+    end
+    piece = pos_i.piece
+    # Reject move if no piece exists at the start position.
+    if piece.nil?
+      puts "Invalid move: There is no piece at the start position." 
+      return false
+    end
+    # Reject move if the piece is a different color than the player.
+    if piece.color != color
+      puts "Invalid move: You can only move pieces of your own color." 
+      return false
+    end
+  end
+
+  def valid_move?(color, start, stop)
+    pos_i = grid.flatten.find { |square| square.name == start }
+    piece = pos_i.piece
+    pos_f = grid.flatten.find { |square| square.name == stop }
+    total_move_list = list_legal_moves(color)
+    piece_move_list = total_move_list[piece][:moves]
+    # Reject move if the stop position is not in the move list.
+    unless piece_move_list.include?(pos_f)
+      puts "Invalid move: That piece cannot move to that position." 
+      return false
+    end
+  end
+
   # The check? method is given the color of a player and returns `true` if that player is in check.
   def check?(color)
     # Find the position of that player's king.
@@ -61,8 +94,6 @@ class GameLogic
     end
     return total_moves
   end
-
-
 
   # The checkmate? method is given the color of a player and returns `true` if that player is in checkmate.
   # A checkmate is defined as a player having no legal moves and being in check.
