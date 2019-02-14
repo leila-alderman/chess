@@ -18,23 +18,6 @@ RSpec.describe Chess do
     it "doesn't raise an error if given two names" do
       expect{ Chess.new("Alice", "Bob")}.to_not raise_error
     end
-
-    it "initializes a board" do
-      expect(@game.board.grid[0][0].piece.class).to eql Rook
-      expect(@game.board.grid[0][0].piece.color).to eql "black"
-    end
-
-    it "initializes with game logic" do
-      expect(@game.logic.check?("white")).to eql false
-    end
-
-    it "initializes with player 1" do
-      expect(@game.current_player.name).to eql "Alice"
-    end
-
-    it "initializes with player 2" do
-      expect(@game.other_player.name).to eql "Bob"
-    end
       
   end
 end
