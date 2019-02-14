@@ -29,11 +29,11 @@ RSpec.describe Chess do
     end
 
     it "initializes with player 1" do
-      expect(@game.player_1.name).to eql "Alice"
+      expect(@game.current_player.name).to eql "Alice"
     end
 
     it "initializes with player 2" do
-      expect(@game.player_2.name).to eql "Bob"
+      expect(@game.other_player.name).to eql "Bob"
     end
       
   end
