@@ -7,21 +7,40 @@ require "./lib/chess/game_logic"
 class Chess
   attr_reader :board, :logic
 
-  def initialize(name_1, name_2)
-    @board = Board.new_full
+  def initialize(name_1, name_2, current_player_name, board_state)
+    @board = Board.new
     @logic = GameLogic.new(@board)
     @player_1 = Player.new(name_1, "white")
     @player_2 = Player.new(name_2, "black")
     @game_over = false
     @save = false
-    @current_player, @other_player = @player_1, @player_2
+    if current_player_name == @player_1.name
+      @current_player, @other_player = @player_1, @player_2
+    else
+      @current_player, @other_player = @player_2, @player_1
+    end
+    board_state.each do |name, piece|
+      square = @board.grid.flatten.find { |square| square.name == name }
+      square.piece = Object.const_get(piece[0]).new(piece[1])
+    end  
+  end
+  
+  def self.new_game(name_1, name_2, starting_board)
+    self.new(name_1, name_2, name_1, starting_board)
+  end
+
+  def self.load_game(save_state)
+    name_1 = save_state["player_1"]
+    name_2 = save_state["player_2"]
+    current_player_name = save_state["current_player"]
+    board_state = save_state["board"]
+    self.new(name_1, name_2, current_player_name, board_state)
   end
 
   def play
     system("clear")
     display_rules
-    show_board_white
-    while @game_over == false
+    until @game_over || @save
       setup_turn
       check_for_check
       play_turn
@@ -30,6 +49,27 @@ class Chess
       switch_players
     end
     return @save
+  end
+
+  def to_json *a
+    as_json.to_json *a
+  end
+
+  def as_json(options = { })
+    save_state = {
+      player_1: @player_1.name,
+      player_2: @player_2.name,
+      current_player: @other_player.name,
+      board: {}
+    }
+    board.grid.flatten.each do |square|
+      unless square.piece.nil?
+        name = square.name
+        piece = square.piece
+        save_state[:board][name] = [piece.class, piece.color]
+      end
+    end
+    save_state
   end
 
   private
@@ -46,7 +86,7 @@ class Chess
   def play_turn
     puts "It's #{@current_player.name}'s turn."
     start, stop = get_input
-    return if @game_over == true
+    return if @game_over || @save
     @current_player.move(board, start, stop)
   end
 
@@ -83,7 +123,7 @@ Each turn, you can move one of your pieces by entering the piece's starting posi
     ready = false
     while ready == false
       entry = gets
-      ready = true if entry = "\n"
+      ready = true if entry == "\n"
     end
     system("clear")
   end
@@ -100,6 +140,9 @@ Alternatively, enter s to save the game or r to resign.\n"
           puts "#{@current_player.name} has resigned. #{@other_player.name} wins!"
           puts "Thanks for playing!"
           @game_over = true
+          return
+        elsif start == "s"
+          @save = true
           return
         end
         valid_start = true if logic.valid_start?(@current_player.color, start)
