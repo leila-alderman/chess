@@ -20,19 +20,6 @@ class Board
     @grid = create_board
   end
 
-  # The self.new_full class method creates a new Board instance that
-  # already has all of the pieces in their starting positions.
-  def self.new_full
-    new_board = self.new
-    new_board.setup_pieces
-    return new_board
-  end
-
-  def setup_pieces
-    setup_black_pieces
-    setup_white_pieces   
-  end
-
   def move_piece(color, start, stop)
     pos_i = grid.flatten.find { |square| square.name == start }
     piece = pos_i.piece
@@ -79,46 +66,6 @@ class Board
         (i+1).between?(0,rows-1) && (j+1).between?(0,columns-1) ? element.dwn_right = grid[i+1][j+1] : element.dwn_right = nil
       end
     end
-  end
-
-  def setup_black_pieces
-    grid[0][0].piece = Rook.new("black")
-    grid[0][1].piece = Knight.new("black")
-    grid[0][2].piece = Bishop.new("black")
-    grid[0][3].piece = Queen.new("black")
-    grid[0][4].piece = King.new("black")
-    grid[0][5].piece = Bishop.new("black")
-    grid[0][6].piece = Knight.new("black")
-    grid[0][7].piece = Rook.new("black")
-
-    grid[1][0].piece = Pawn.new("black")
-    grid[1][1].piece = Pawn.new("black")
-    grid[1][2].piece = Pawn.new("black")
-    grid[1][3].piece = Pawn.new("black")
-    grid[1][4].piece = Pawn.new("black")
-    grid[1][5].piece = Pawn.new("black")
-    grid[1][6].piece = Pawn.new("black")
-    grid[1][7].piece = Pawn.new("black")
-  end
-
-  def setup_white_pieces
-    grid[7][0].piece = Rook.new("white")
-    grid[7][1].piece = Knight.new("white")
-    grid[7][2].piece = Bishop.new("white")
-    grid[7][3].piece = Queen.new("white")
-    grid[7][4].piece = King.new("white")
-    grid[7][5].piece = Bishop.new("white")
-    grid[7][6].piece = Knight.new("white")
-    grid[7][7].piece = Rook.new("white")
-
-    grid[6][0].piece = Pawn.new("white")
-    grid[6][1].piece = Pawn.new("white")
-    grid[6][2].piece = Pawn.new("white")
-    grid[6][3].piece = Pawn.new("white")
-    grid[6][4].piece = Pawn.new("white")
-    grid[6][5].piece = Pawn.new("white")
-    grid[6][6].piece = Pawn.new("white")
-    grid[6][7].piece = Pawn.new("white")
   end
 
 end
